@@ -8,7 +8,7 @@ A comprehensive collection of steering documents and agent hooks for Kiro IDE th
 # Download and extract only .kiro directory
 cd your-project
 mkdir -p .kiro
-curl -L https://github.com/awsdataarchitect/kiro-best-practices/archive/main.tar.gz | tar -xz --strip-components=2 -C .kiro kiro-best-practices-main/.kiro
+curl -L https://github.com/mehtadman87/kiro-config/blob/main.tar.gz | tar -xz --strip-components=2 -C .kiro kiro-config/.kiro
 ```
 
 ### ⚠️ Important: Activation Requirements
