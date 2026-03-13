@@ -1,0 +1,19 @@
+{
+  "enabled": true,
+  "name": "Spec Creation Validation",
+  "description": "Triggers web search validation when new spec files are created to ensure initial designs and requirements are research-backed",
+  "version": "1",
+  "when": {
+    "type": "fileCreated",
+    "patterns": [
+      "**/*requirements.md",
+      "**/*design.md",
+      "**/*tasks.md",
+      "**/*bugfix.md"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A new spec file has been created. You MUST use Kiro's built-in web search tool to validate the content before proceeding. Do the following:\n\n1. ARCHITECTURE VALIDATION: Search for current best practices for every AWS service, pattern, or technology referenced in this spec. Verify the approach is sound.\n\n2. WELL-ARCHITECTED REVIEW: Cross-reference architectural decisions against the AWS Well-Architected Framework. Search for relevant guidance on each pillar.\n\n3. ALTERNATIVES CHECK: Search for alternative approaches to the proposed solution. Document why the chosen approach is preferred over alternatives.\n\n4. FEASIBILITY CHECK: Verify that service quotas, regional availability, and integration compatibility support the proposed design.\n\n5. REPORT: Summarize validation findings with source URLs. Flag any risks or recommended changes.\n\nDo NOT skip the web search step. This is a mandatory validation gate."
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "name": "Error Research Reminder",
+  "description": "When the agent stops execution (often due to errors or completion), validates that any errors encountered were researched via web search before fixes were applied",
+  "version": "1",
+  "when": {
+    "type": "agentStop"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Before concluding this session, review your work for completeness:\n\n1. ERROR VALIDATION: If any errors, build failures, or runtime issues were encountered during this session, confirm that you used Kiro's built-in web search tool to research the error before applying a fix. If you did not, search now and validate your fix is correct.\n\n2. TECHNICAL DEBT REVIEW: Check if any shortcuts, workarounds, or deferred improvements were introduced. If so, ensure they are logged in the appropriate technical-debt.md file.\n\n3. ARCHITECTURE VALIDATION: If any architectural decisions were made, confirm they were validated against current AWS documentation and best practices via web search.\n\nIf any of these checks reveal gaps, address them now before the session ends."
+  }
+}

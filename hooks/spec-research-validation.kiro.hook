@@ -1,0 +1,19 @@
+{
+  "enabled": true,
+  "name": "Spec Research Validation",
+  "description": "Triggers web search validation when spec files (requirements.md, design.md, tasks.md) are created or modified to ensure decisions are grounded in current best practices and official documentation",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "**/*requirements.md",
+      "**/*design.md",
+      "**/*tasks.md",
+      "**/*bugfix.md"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A spec file has been modified. You MUST use Kiro's built-in web search tool to validate the changes. Do the following:\n\n1. RESEARCH VALIDATION: Use web search to verify that any AWS services, architectural patterns, libraries, or technical approaches mentioned in this file align with current best practices and official documentation.\n\n2. WELL-ARCHITECTED CHECK: For any AWS architecture decisions, search for and cross-reference against the AWS Well-Architected Framework six pillars (Operational Excellence, Security, Reliability, Performance Efficiency, Cost Optimization, Sustainability).\n\n3. ANTI-PATTERN DETECTION: Search for known anti-patterns, gotchas, or limitations related to the services and approaches described in the spec.\n\n4. DEPENDENCY VALIDATION: For any libraries or frameworks mentioned, verify they are actively maintained, have no critical vulnerabilities, and are the recommended choice for the use case.\n\n5. TECHNICAL DEBT CHECK: Review the changes for any shortcuts, workarounds, or deferred improvements. If found, log them to the project's technical-debt.md file following the format defined in the technical-debt-management steering doc.\n\n6. REPORT: Provide a brief summary of findings. Flag any concerns, suggest improvements if warranted, and cite source URLs for key validations.\n\nDo NOT skip the web search step. Every validation must be backed by a search result."
+  }
+}
