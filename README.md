@@ -4,11 +4,43 @@ A comprehensive collection of steering documents and agent hooks for Kiro IDE th
 
 ## 🚀 Quick Start
 
+### Option 1: Clone as Template
+
+```bash
+# Clone this repository as a template for your new project
+git clone https://github.com/mehtadman87/kiro-config.git your-project-name
+cd your-project-name
+rm -rf .git
+git init
+git add .
+git commit -m "feat: initialize project with Kiro best practices"
+```
+
+### Option 2: Add to Existing Project (Recommended)
+
+```bash
+# Add only the .kiro directory to your existing project
+cd your-existing-project
+curl -L https://github.com/mehtadman87/kiro-config/archive/main.tar.gz | tar -xz
+cp -r kiro-config-main/.kiro .
+rm -rf kiro-config-main
+```
+
+### Option 3: Manual Download
+
 ```bash
 # Download and extract only .kiro directory
 cd your-project
-mkdir -p .kiro
-curl -L https://github.com/mehtadman87/kiro-config/blob/main.tar.gz | tar -xz --strip-components=2 -C .kiro kiro-config/.kiro
+curl -L https://github.com/mehtadman87/kiro-config/archive/main.tar.gz | tar -xz
+cp -r kiro-config-main/.kiro .
+rm -rf kiro-config-main
+
+# Or use git sparse-checkout for updates
+git clone --filter=blob:none --sparse https://github.com/mehtadman87/kiro-config.git temp-kiro
+cd temp-kiro
+git sparse-checkout set .kiro
+cp -r .kiro ../
+cd .. && rm -rf temp-kiro
 ```
 
 ### ⚠️ Important: Activation Requirements
