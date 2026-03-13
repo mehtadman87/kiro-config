@@ -19,28 +19,29 @@ git commit -m "feat: initialize project with Kiro best practices"
 ### Option 2: Add to Existing Project (Recommended)
 
 ```bash
-# Add only the .kiro directory to your existing project
+# Add the repo contents as your .kiro directory
 cd your-existing-project
+mkdir -p .kiro
 curl -L https://github.com/mehtadman87/kiro-config/archive/main.tar.gz | tar -xz
-cp -r kiro-config-main/.kiro .
+cp -r kiro-config-main/hooks kiro-config-main/settings kiro-config-main/specs kiro-config-main/steering .kiro/
 rm -rf kiro-config-main
 ```
 
 ### Option 3: Manual Download
 
 ```bash
-# Download and extract only .kiro directory
+# Download and set up .kiro directory
 cd your-project
+mkdir -p .kiro
 curl -L https://github.com/mehtadman87/kiro-config/archive/main.tar.gz | tar -xz
-cp -r kiro-config-main/.kiro .
+cp -r kiro-config-main/hooks kiro-config-main/settings kiro-config-main/specs kiro-config-main/steering .kiro/
 rm -rf kiro-config-main
 
-# Or use git sparse-checkout for updates
-git clone --filter=blob:none --sparse https://github.com/mehtadman87/kiro-config.git temp-kiro
-cd temp-kiro
-git sparse-checkout set .kiro
-cp -r .kiro ../
-cd .. && rm -rf temp-kiro
+# Or use git clone and copy
+git clone https://github.com/mehtadman87/kiro-config.git temp-kiro
+mkdir -p .kiro
+cp -r temp-kiro/hooks temp-kiro/settings temp-kiro/specs temp-kiro/steering .kiro/
+rm -rf temp-kiro
 ```
 
 ### ⚠️ Important: Activation Requirements
