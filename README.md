@@ -72,6 +72,8 @@ Automatically guide all AI interactions with established best practices:
 - **Technical Debt Management** - Tracking, categorization, and remediation of tech debt
 - **Testing Best Practices** - Minimal verbosity, output management, performance
 - **TypeScript Best Practices** - Code style, type safety, and testing guidelines
+- **PFR Tracking** - Proactive AWS Product Feature Request identification, research, and documentation
+- **Email Drafting Style** - SA email formatting, structure, tone, and documentation reference style
 
 ### 🔄 Automatic Hooks (File Save Triggers)
 
@@ -88,6 +90,7 @@ Quality checks that run automatically when you save files:
 - **Spec Research Validation** - Web search validation when spec files are modified
 - **Spec Creation Validation** - Web search validation when new spec files are created
 - **Error Research Reminder** - Ensures errors were researched before session ends
+- **PFR Identification** - After each session, scans for AWS service gaps and documents validated PFRs in `PFRs.md`
 
 ### 🔘 Manual Hooks (Button Triggers)
 
