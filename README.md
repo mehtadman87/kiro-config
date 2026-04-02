@@ -1,13 +1,12 @@
 # Kiro Best Practices Boilerplate
 
-A comprehensive collection of steering documents and agent hooks for Kiro IDE that enforces development best practices, automates quality checks, and streamlines workflows.
+A comprehensive collection of steering documents, agent hooks, MCP server configurations, and spec templates for Kiro IDE that enforces development best practices, automates quality checks, and streamlines workflows.
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Option 1: Clone as Template
 
 ```bash
-# Clone this repository as a template for your new project
 git clone https://github.com/mehtadman87/kiro-config.git your-project-name
 cd your-project-name
 rm -rf .git
@@ -19,7 +18,6 @@ git commit -m "feat: initialize project with Kiro best practices"
 ### Option 2: Add to Existing Project (Recommended)
 
 ```bash
-# Add the repo contents as your .kiro directory
 cd your-existing-project
 mkdir -p .kiro
 curl -L https://github.com/mehtadman87/kiro-config/archive/main.tar.gz | tar -xz
@@ -30,88 +28,171 @@ rm -rf kiro-config-main
 ### Option 3: Manual Download
 
 ```bash
-# Download and set up .kiro directory
 cd your-project
 mkdir -p .kiro
-curl -L https://github.com/mehtadman87/kiro-config/archive/main.tar.gz | tar -xz
-cp -r kiro-config-main/hooks kiro-config-main/settings kiro-config-main/specs kiro-config-main/steering .kiro/
-rm -rf kiro-config-main
-
-# Or use git clone and copy
 git clone https://github.com/mehtadman87/kiro-config.git temp-kiro
-mkdir -p .kiro
 cp -r temp-kiro/hooks temp-kiro/settings temp-kiro/specs temp-kiro/steering .kiro/
 rm -rf temp-kiro
 ```
 
-### ⚠️ Important: Activation Requirements
+### Activation Requirements
 
 After installation:
 
-- 🎯 **Steering Documents**: Automatically refresh and become active immediately - no restart needed
-- 🔄 **Hooks**: Require restarting Kiro or reopening the project to become active
+- Steering Documents: Automatically refresh and become active immediately — no restart needed.
+- Hooks: Require restarting Kiro or reopening the project to become active.
 
-> 💡 **Tip**: After installation, restart Kiro to ensure all hooks are properly loaded and functional.
+---
 
-## 📋 What's Included
+## Steering Documents (23 files)
 
-### 🎯 Steering Documents (Always Active)
+Steering files provide persistent context and guidelines to the Kiro agent across all interactions. They live in `.kiro/steering/` and use three inclusion modes:
 
-Automatically guide all AI interactions with established best practices:
+- **Always**: Loaded into every agent interaction automatically.
+- **File Match**: Loaded conditionally when a matching file pattern is read into context.
+- **Manual**: Loaded on-demand via `#` context key in chat.
 
-- **AWS CLI Best Practices** - `--no-cli-pager` and AWS integration patterns
-- **CDK Best Practices** - Project structure, testing, and deployment patterns
-- **Development Standards** - Dependency management, code quality, documentation
-- **Docker Best Practices** - Container security and optimization
-- **Git Best Practices** - Conventional commits, branching, and security
-- **MCP Best Practices** - Model Context Protocol server configuration and usage
-- **Python Best Practices** - Code style, virtual environments, and testing
-- **React Best Practices** - Component patterns, hooks, and accessibility
-- **Research-Validated Development** - Web search validation for architecture and spec decisions
-- **Security Best Practices** - Code security, dependency management, data protection
-- **Technical Debt Management** - Tracking, categorization, and remediation of tech debt
-- **Testing Best Practices** - Minimal verbosity, output management, performance
-- **TypeScript Best Practices** - Code style, type safety, and testing guidelines
-- **PFR Tracking** - Proactive AWS Product Feature Request identification, research, and documentation
-- **Email Drafting Style** - SA email formatting, structure, tone, and documentation reference style
+### Always Active (12 files)
 
-### 🔄 Automatic Hooks (File Save Triggers)
+These are loaded into every agent interaction:
 
-Quality checks that run automatically when you save files:
+| File | Description |
+|---|---|
+| `aws-cli-best-practices.md` | `--no-cli-pager` usage, output formatting, AWS integration patterns |
+| `cdk-best-practices.md` | Project structure (projen), construct/stack/app patterns, testing, Lambda functions |
+| `development-standards.md` | Dependency management, code quality, file management, documentation, version control |
+| `email-drafting-style.md` | SA email formatting: subject lines, tone, structure, references, recommendations |
+| `git-best-practices.md` | Conventional commits, branching strategy, repository management, security |
+| `mcp-best-practices.md` | MCP server configuration, security, auto-approval, testing, agentic tool design |
+| `pfr-tracking.md` | AWS Product Feature Request identification, research validation, documentation format |
+| `research-validated-development.md` | Mandatory web search validation for specs, architecture, and dependency decisions |
+| `security-best-practices.md` | Code security, dependency management, data protection, LLM guardrails (3-layer model), prompt injection defense (5-layer), agentic AI security |
+| `technical-debt-management.md` | Debt categorization, severity guidelines, entry format, review cadence |
+| `testing-best-practices.md` | Minimal verbosity execution, output management, filtering, CI/CD considerations |
+| `typescript-best-practices.md` | Strict config, type safety, error handling, imports/exports, testing standards |
 
-- **Auto Test on Save** - Runs tests with minimal verbosity when code changes
-- **Lint and Format on Save** - Auto-formats and lints code following project standards
-- **Security Scan on Dependencies** - Audits when package files change
-- **CDK Synth on Change** - Validates CDK code and runs synthesis
-- **Validate Docker on Change** - Checks Docker files for best practices and security
-- **MCP Config Validation** - Validates MCP server configurations
-- **Environment File Validation** - Checks .env files for security issues
-- **API Schema Validation** - Validates OpenAPI/GraphQL schemas and generates types
-- **Spec Research Validation** - Web search validation when spec files are modified
-- **Spec Creation Validation** - Web search validation when new spec files are created
-- **Error Research Reminder** - Ensures errors were researched before session ends
-- **PFR Identification** - After each session, scans for AWS service gaps and documents validated PFRs in `PFRs.md`
+### Conditionally Loaded — File Match (3 files)
 
-### 🔘 Manual Hooks (Button Triggers)
+These activate when a matching file is read into context:
+
+| File | Triggers On | Description |
+|---|---|---|
+| `docker-best-practices.md` | `Dockerfile*`, `docker-compose*`, `*.dockerfile` | Multi-stage builds, security, optimization, health checks |
+| `python-best-practices.md` | `*.py` | PEP 8, virtual environments, type hints, testing |
+| `react-best-practices.md` | `*.tsx`, `*.jsx`, `*react*` | Functional components, hooks, accessibility, state management |
+
+### Manually Loaded — On-Demand (7 files)
+
+Load these via `#` context key when working on specific topics:
+
+| File | Description |
+|---|---|
+| `claude-model-best-practices.md` | Claude Opus 4.6 / Sonnet 4.6 model selection, adaptive thinking config, Strands SDK extended thinking passthrough, prompting principles, agentic coding patterns |
+| `llm-agent-architecture.md` | Multi-agent architecture, MIT/Google scaling laws (~45% threshold, 17.2x error amplification), orchestration topologies (parallel, sequential, hierarchical, hybrid), agent count guidelines |
+| `llm-accuracy-and-confidence.md` | Confidence estimation methods (verbalized, softmax, consistency, CoCoA, entropy), scoring framework with thresholds, CoT verification, hallucination reduction |
+| `llm-cost-optimization.md` | Multi-model routing (40-60% savings), prompt caching (45-90% savings), semantic caching, token optimization, batch processing (50% savings), cost monitoring metrics |
+| `llm-memory-and-context.md` | Semantic/episodic/procedural/user-preference memory types, intelligent decay, hierarchical memory allocation, context window management, NoLiMa benchmark findings |
+| `llm-observability-and-hitl.md` | Outcome/trajectory/operational/reliability metrics, three-tier evaluation framework, LLM-as-judge, HITL escalation triggers, four HITL architecture patterns |
+| `rag-best-practices.md` | Semantic chunking, hybrid search (BM25 + vector), reranking, query transformation, adaptive RAG, context compression, citation/grounding |
+| `vidya-spark-generator.md` | Process guide for generating Vidya Spark inputs: customer context, problem statement, solution description, KPIs, and key features — grounded in deep research |
+
+---
+
+## Agent Hooks (21 files)
+
+Hooks are event-driven automations that trigger agent actions on IDE events. They live in `.kiro/hooks/`.
+
+### Automatic Hooks — File Events (12 hooks)
+
+These trigger automatically when matching files are saved, created, or deleted:
+
+| Hook | Trigger | File Patterns | Description |
+|---|---|---|---|
+| Auto Test on Save | `fileEdited` | `*.ts`, `*.js`, `*.tsx`, `*.jsx` | Runs related tests with minimal verbosity on code save |
+| Lint and Format on Save | `fileEdited` | `*.ts`, `*.js`, `*.tsx`, `*.jsx`, `*.py`, `*.json` | Runs linter and formatter using project config |
+| CDK Synth on Change | `fileEdited` | `src/**/*.ts`, `lib/**/*.ts`, `cdk.json`, `*Stack.ts`, `*Construct.ts` | Validates CDK code via `cdk synth`, checks security, runs diff |
+| Security Scan on Dependency Change | `fileEdited` | `package.json`, `package-lock.json`, `yarn.lock`, `requirements.txt`, `poetry.lock`, `Pipfile.lock` | Runs security audit on dependency file changes |
+| Validate Docker on Change | `fileEdited` | `Dockerfile*`, `docker-compose*.yml`, `*.dockerfile` | Validates syntax, security, best practices for Docker files |
+| MCP Configuration Validation | `fileEdited` | `.kiro/settings/mcp.json` | Validates JSON structure, security of auto-approve settings |
+| Environment File Validation | `fileEdited` | `.env*` | Checks for secrets, validates format, verifies `.gitignore` |
+| API Schema Validation | `fileEdited` | `*.openapi.yml`, `*.swagger.yml`, `*.graphql`, `schema.json` | Validates schemas, generates TypeScript types, checks breaking changes |
+| Spec Research Validation | `fileEdited` | `*requirements.md`, `*design.md`, `*tasks.md`, `*bugfix.md` | Web search validation when spec files are modified |
+| Spec Creation Validation | `fileCreated` | `*requirements.md`, `*design.md`, `*tasks.md`, `*bugfix.md` | Web search validation when new spec files are created |
+
+### Automatic Hooks — Agent Lifecycle (2 hooks)
+
+These trigger on agent session events:
+
+| Hook | Trigger | Description |
+|---|---|---|
+| Error Research Reminder | `agentStop` | Validates errors were researched via web search, checks for technical debt, validates architecture decisions |
+| PFR Opportunity Identification | `agentStop` | Reviews session for AWS service gaps and documents validated PFRs in `PFRs.md` |
+
+### Manual Hooks — Button Triggers (6 hooks)
 
 On-demand tools available in the Kiro Agent Hooks panel:
 
-- **Commit Message Helper** - Creates conventional commit messages
-- **README Spell Check** - Fixes spelling and grammar in documentation
-- **MCP Server Test** - Tests all configured MCP servers
-- **Dependency Update Check** - Finds outdated packages and security issues
-- **Code Coverage Check** - Analyzes test coverage gaps
-- **Performance Analysis** - Identifies optimization opportunities
+| Hook | Button Text | Description |
+|---|---|---|
+| Commit Message Helper | Generate Commit Message | Analyzes git diff and generates conventional commit messages |
+| README Spell Check | Spell Check README | Fixes spelling, grammar, and formatting in README files |
+| Test MCP Servers | Test MCP Servers | Tests connectivity and tool functionality for all configured MCP servers |
+| Dependency Update Check | Check Dependencies | Finds outdated packages, security vulnerabilities, suggests updates |
+| Code Coverage Check | Check Coverage | Runs tests with coverage, identifies gaps below 80% threshold |
+| Performance Analysis | Analyze Performance | Identifies performance anti-patterns, memory leaks, optimization opportunities |
 
-### 🎛️ Optional Hooks (Disabled by Default)
+### Optional Hooks — Disabled by Default (3 hooks)
 
-Performance-sensitive hooks you can enable as needed:
+Performance-sensitive hooks you can enable as needed by setting `"enabled": true`:
 
-- **Accessibility Audit** - Checks React components for accessibility issues
-- **Update Documentation** - Updates docs when code changes
-- **Translation Update** - Syncs translation files
+| Hook | Trigger | File Patterns | Description |
+|---|---|---|---|
+| Accessibility Audit | `fileEdited` | `*.tsx`, `*.jsx`, `*.html` | ARIA labels, keyboard accessibility, heading hierarchy, color contrast |
+| Update Documentation | `fileEdited` | `src/**/*.ts`, `src/**/*.js`, `lib/**/*.py` | Updates associated docs, generates JSDoc/docstrings |
+| Translation Update | `fileEdited` | `**/locales/en/**/*.json`, `**/i18n/en/**/*.json` | Syncs translation files when base language changes |
 
-## ⚙️ Configuration
+---
+
+## MCP Server Configuration
+
+Configured in `.kiro/settings/mcp.json`:
+
+| Server | Package | Purpose |
+|---|---|---|
+| context7 | `context7-mcp-server@latest` | Dependency compatibility verification, library documentation lookup |
+| aws-docs | `awslabs.aws-documentation-mcp-server@latest` | AWS documentation search, section reading, recommendations |
+
+Both servers use `FASTMCP_LOG_LEVEL: "ERROR"` to reduce log noise. No tools are auto-approved by default.
+
+---
+
+## Specs
+
+Spec templates and tracking files in `.kiro/specs/`:
+
+| File | Description |
+|---|---|
+| `PFRs.md` | AWS Product Feature Request register — tracks identified service gaps with full PFR documentation format |
+| `technical-debt.md` | Global technical debt register — tracks cross-cutting debt items with severity, impact, and remediation |
+
+---
+
+## Technology Support
+
+This boilerplate includes best practices for:
+
+- **Languages**: TypeScript, JavaScript, Python
+- **Frameworks**: React, CDK, Docker
+- **Tools**: Git, npm/yarn, pytest, ESLint, Prettier
+- **Cloud**: AWS (CLI, CDK, Bedrock, Strands Agents SDK)
+- **APIs**: OpenAPI/Swagger, GraphQL
+- **AI/ML**: LLM agent architecture, RAG, multi-agent orchestration, cost optimization, observability
+- **Testing**: Jest, pytest, coverage analysis
+- **Protocols**: MCP (Model Context Protocol)
+
+---
+
+## Configuration
 
 ### Enabling/Disabling Hooks
 
@@ -119,9 +200,7 @@ Edit any `.kiro.hook` file and change the `enabled` field:
 
 ```json
 {
-  "enabled": true,  // Change to false to disable
-  "name": "Hook Name",
-  // ... rest of configuration
+  "enabled": true
 }
 ```
 
@@ -134,9 +213,8 @@ Modify the `patterns` array in hook files to match your project structure:
   "when": {
     "type": "fileEdited",
     "patterns": [
-      "src/**/*.ts",     // Your source files
-      "lib/**/*.js",     // Your library files
-      "**/*.custom"      // Your custom extensions
+      "src/**/*.ts",
+      "lib/**/*.js"
     ]
   }
 }
@@ -155,94 +233,15 @@ inclusion: always
 # Your Team-Specific Guidelines
 - Team-specific coding standards
 - Project-specific patterns
-- Custom workflows
 ```
 
-## 🛠️ Technology Support
+Inclusion options:
+- `always` — loaded into every interaction
+- `fileMatch` with `fileMatchPattern` — loaded when matching files are in context
+- `manual` — loaded on-demand via `#` context key
 
-This boilerplate includes best practices for:
+---
 
-- **Languages**: TypeScript, JavaScript, Python
-- **Frameworks**: React, CDK, Docker
-- **Tools**: Git, npm/yarn, pytest, ESLint, Prettier
-- **Cloud**: AWS (CLI, CDK, services)
-- **APIs**: OpenAPI/Swagger, GraphQL
-- **Testing**: Jest, pytest, coverage analysis
-- **Documentation**: Markdown, JSDoc, docstrings
+## License
 
-## 📚 MCP Integration
-
-Includes best practices for Model Context Protocol servers:
-
-- **Context7** - For dependency compatibility checking
-- **AWS Knowledge** - For current AWS documentation and best practices
-- **AWS API** - For programmatic AWS interactions
-- Proper configuration patterns and testing workflows
-
-## 🔒 Security Features
-
-Built-in security practices:
-
-- Dependency vulnerability scanning
-- Environment file validation (no secrets in code)
-- Docker security best practices
-- AWS security patterns
-- MCP server security configurations
-
-## 🎨 Customization Guide
-
-### For Your Team
-
-1. **Review all steering documents** - Modify for your team's standards
-2. **Adjust hook sensitivity** - Enable/disable based on your workflow
-3. **Update file patterns** - Match your project structure
-4. **Add team-specific hooks** - Create custom automation for your needs
-
-### For Your Project Type
-
-- **Web Applications**: Enable accessibility audit, focus on React patterns
-- **Infrastructure**: Enable CDK hooks, focus on AWS patterns
-- **Libraries**: Enable documentation updates, focus on API patterns
-- **Microservices**: Enable Docker validation, focus on testing patterns
-
-## 📖 Documentation
-
-- [Steering Documents](.kiro/steering/) - Individual best practice guides
-- [Hook Configurations](.kiro/hooks/) - All available automation hooks
-
-## 🤝 Contributing
-
-### Adding New Best Practices
-
-1. Create steering document in `.kiro/steering/`
-2. Add corresponding hook in `.kiro/hooks/`
-3. Update documentation
-4. Test with sample project
-
-### Sharing Improvements
-
-1. Fork this repository
-2. Add your improvements
-3. Submit pull request with description
-4. Include examples of usage
-
-## 📄 License
-
-MIT License - Feel free to use this in your projects and modify as needed.
-
-## 🙋‍♂️ Support
-
-- **Issues**: Report bugs or request features via GitHub issues
-- **Discussions**: Share your customizations and ask questions
-- **Wiki**: Community-contributed examples and patterns
-
-## 🎯 Quick Verification
-
-After setup, verify everything works:
-
-1. **Check Steering**: AI responses should reference best practices
-2. **Test Hooks**: Save a TypeScript file to trigger auto-test hook
-3. **Manual Hooks**: Look for buttons in Kiro Agent Hooks panel
-4. **MCP Integration**: Test MCP servers if configured
-
-Happy coding with consistent, high-quality development practices! 🚀
+MIT License — use and modify as needed.
