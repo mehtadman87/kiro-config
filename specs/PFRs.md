@@ -1,49 +1,41 @@
 # AWS Product Feature Requests (PFRs)
 
-This file tracks validated AWS Product Feature Request opportunities identified during development work. Each entry has been researched and validated before documentation.
-
-## Summary Table
-
-| ID | Title | AWS Service | Category | Priority | Status |
-|----|-------|-------------|----------|----------|--------|
-| [PFR-001](#pfr-001-kiro-organization-level-steering-and-hook-distribution) | Kiro Organization-Level Steering and Hook Distribution | Kiro IDE | Missing Feature | High | Open |
+| ID | Title | Service | Status |
+|---|---|---|---|
+| PFR-001 | First-class `thinking` parameter in Strands Agents SDK BedrockConfig | Strands Agents SDK / Amazon Bedrock | Open |
 
 ---
 
-### PFR-001: Kiro Organization-Level Steering and Hook Distribution
+### PFR-001: First-class `thinking` parameter in Strands Agents SDK BedrockConfig
 
-**Date Identified:** 2026-03-26
-**AWS Service:** Kiro IDE
-**Category:** Missing Feature / Collaboration
-**Priority:** High
+**Date Identified:** 2026-04-02
+**AWS Service:** Strands Agents SDK (open-source) / Amazon Bedrock
+**Category:** API Gap
+**Priority:** Medium
 **Status:** Open
 
 **Describe the Problem or Context.**
-Kiro steering documents and agent hooks are stored at the workspace level (`.kiro/steering/` and `.kiro/hooks/`) and are distributed today only through manual processes such as cloning a GitHub template repository, running curl commands, or copying files. There is no native mechanism for an organization, team, or enterprise account to centrally publish, version, and enforce a shared set of steering documents and hooks across all developers and projects. Every developer must manually bootstrap their workspace from a shared repo, and any updates to org-wide standards require each developer to re-pull and re-copy files. There is no concept of an "org-level" or "team-level" steering layer that sits above the workspace level and is automatically applied.
+The Strands Agents SDK `BedrockConfig` TypedDict does not include a first-class `thinking` parameter for configuring Claude's extended thinking or adaptive thinking modes. Developers must use the generic `additional_request_fields` passthrough to pass the `thinking` configuration object to the Bedrock Converse API. This is undiscoverable without reading the AWS blog post or Bedrock API docs separately, and the passthrough pattern is not validated at the SDK level (no type checking, no defaults, no documentation in the config class itself).
 
 **Describe the target user(s).**
-Enterprise customers and large development organizations using Kiro at scale, including platform engineering teams responsible for enforcing coding standards, security policies, and development workflows across hundreds of developers and dozens of projects. AWS Solutions Architects, DevOps leads, and engineering managers who need consistent AI behavior across their entire organization without relying on each developer to manually maintain their local `.kiro` configuration.
+Developers building agentic AI systems with Strands Agents SDK on Amazon Bedrock, particularly those using Claude Opus 4.6 or Sonnet 4.6 with extended/adaptive thinking for complex reasoning tasks.
 
 **Describe the desired future state.**
-Kiro should support an organization-level or team-level configuration layer that sits above the workspace level. Specifically:
+`BedrockConfig` should include typed, documented parameters for thinking configuration:
+- `thinking_type`: `"adaptive"` | `"enabled"` | `"disabled"` (default: `None` / not set)
+- `thinking_budget_tokens`: `int` (optional, required when `thinking_type` is `"enabled"`)
+- `thinking_effort`: `"max"` | `"high"` | `"medium"` | `"low"` (optional, for adaptive mode)
 
-1. An org admin or team lead should be able to publish a canonical set of steering documents and hooks to a central location (e.g., an S3 bucket, a Kiro-managed registry, or an AWS Organizations policy attachment).
-2. When a developer opens any workspace in Kiro, org-level steering and hooks should be automatically applied without any manual setup, in addition to any workspace-level overrides.
-3. Updates to org-level steering should propagate to all developers automatically on next IDE sync or session start, without requiring each developer to re-clone or re-copy files.
-4. Workspace-level steering should be able to override or extend org-level steering, following a clear precedence model (org < team < workspace).
-5. Org admins should be able to mark certain steering documents as locked (non-overridable) to enforce mandatory security or compliance policies.
+This would provide IDE autocompletion, type validation, and inline documentation, making the feature discoverable without external research.
 
 **Known Workarounds.**
-The current workaround is to maintain a shared GitHub repository (such as the one this project represents) containing the `.kiro` directory, and instruct developers to clone it as a template or copy its contents into their projects. This approach has significant limitations: it requires manual bootstrapping per project, updates are not automatically propagated, there is no enforcement mechanism to ensure developers have applied the latest standards, and there is no way to distinguish between org-mandated policies and optional team preferences. The workaround scales poorly beyond small teams.
+Use `additional_request_fields={"thinking": {"type": "adaptive", "budget_tokens": 10000}}` as a passthrough. This works but provides no type safety, no autocompletion, no SDK-level validation, and is not documented in the `BedrockConfig` attributes list. Developers must discover this pattern from the AWS blog post or by reading the Bedrock Converse API docs independently.
 
 **Customer Specific Use Case.**
-An AWS Solutions Architect team of 50 engineers needs every member to apply consistent PFR tracking, email drafting standards, and security scanning hooks across all customer engagement workspaces. Today, each SA must manually copy the `.kiro` config into every new workspace they create. When the team lead updates the PFR tracking steering document to add a new required field, all 50 SAs must manually re-pull and re-copy the file. A native org-level distribution mechanism would allow the team lead to publish the update once and have it automatically reflected for all team members on their next Kiro session, with no manual action required per developer.
+Building multi-agent orchestration systems where different agents require different thinking configurations (e.g., Opus 4.6 orchestrator with `effort: "max"` for deep reasoning, Sonnet 4.6 sub-agents with thinking disabled for fast extraction). The lack of a typed parameter makes it harder to manage these configurations consistently across agent definitions and increases the risk of misconfiguration.
 
 **Research Validation.**
-- Kiro hooks documentation confirms hooks are workspace-local with no org-level distribution: https://kiro.dev/docs/hooks/
-- Kiro steering documentation confirms steering files live in `.kiro/steering/` at the workspace level: https://kiro.dev/docs/
-- The Kiro GitHub repository issue tracker and feature request mechanism: https://github.com/kirodotdev/Kiro/issues/new?template=feature_request.yml
-- No evidence of a centralized org-level steering registry or hook distribution mechanism was found in current Kiro documentation or changelog as of March 2026: https://kiro.dev/changelog/
-- Comparable capability exists in GitHub Copilot's organization-level custom instructions (`.github/copilot-instructions.md` at the org level), confirming this is a recognized pattern in the AI IDE space.
-
----
+- Strands Agents SDK API docs confirm no `thinking` parameter in `BedrockConfig`: [strandsagents.com/docs/api/python/strands.models.bedrock/]
+- AWS blog documents the `additional_request_fields` workaround: [aws.amazon.com/blogs/opensource/using-strands-agents-with-claude-4-interleaved-thinking/]
+- Amazon Bedrock docs confirm the thinking API exists at the Converse API level: [docs.aws.amazon.com/bedrock/latest/userguide/claude-messages-adaptive-thinking.html]
+- The Strands SDK GitHub repo (github.com/strands-agents/sdk-python) does not show any open PRs or issues for this feature as of April 2026.

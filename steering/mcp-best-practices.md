@@ -93,3 +93,34 @@ inclusion: always
 - Leverage AWS-Knowledge MCP server for current AWS documentation and best practices
 - Use aws-api-mcp-server for AWS API interactions and validation
 - Reference official sources through MCP servers when available in documentation
+
+## Agentic Tool Design for MCP Servers (Research-Validated)
+
+These patterns are grounded in production agentic AI research (2025-2026).
+
+### Tool Design Principles
+- **Single-purpose tools:** Each tool should do one thing well. A tool called `manage_database` that handles reads, writes, schema changes, and backups is harder for the model to use correctly than four separate tools.
+- **Descriptive names and documentation:** The tool name and description are the primary signals the model uses to decide when and how to call a tool. Invest in clear, unambiguous descriptions with usage examples.
+- **Validate all inputs:** Every tool call from an LLM should be validated before execution. Simple rule: reject, fix, or escalate; no silent failures.
+- **Minimize tool count per context:** Dynamically limit the set of available tools to those relevant to the current task. Aim for 5-15 tools visible at any time; beyond 20, selection accuracy degrades.
+- **Parallel tool calling:** Design tools to be independently callable when possible. Claude 4.6 can execute multiple tool calls simultaneously when there are no dependencies.
+
+### Tool Call Optimization
+- Function calling adds 15-30% token overhead but unlocks 10x more agent capabilities
+- Reduce unnecessary tool calls by providing sufficient context upfront
+- Cache tool results when the underlying data doesn't change frequently
+- Use batch endpoints for non-real-time tool operations (50% cost reduction typical)
+- Implement retry logic with exponential backoff for transient tool failures
+- Set timeouts on all tool calls; a hanging tool call blocks the entire agent loop
+
+### MCP Server Architecture (Agentic Patterns)
+- Streamable HTTP replaced SSE as the recommended remote transport (spec 2025-03-26)
+- Build one MCP server per domain/system; don't create monolithic servers
+- Each server should expose a focused set of tools (5-15 is optimal)
+- Enforce authorization at the tool level, not just the server level
+- Design tools to be idempotent where possible
+- Return structured error responses with actionable error messages
+- Include execution metadata (duration, tokens used, cache hit/miss) in responses
+- Use connection pooling for database-backed tools
+- Return only the data the agent needs; avoid returning entire database rows when a single field suffices
+- Implement pagination for list operations; never return unbounded result sets
