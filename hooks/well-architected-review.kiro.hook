@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "name": "Well-Architected Review",
+  "description": "Trigger a Well-Architected best practices scan on demand",
+  "version": "1.0.0",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Run a Well-Architected Framework scan against the configured AWS account. Ask which regions to scan (specific list or all enabled regions). Ask whether to include the Data Analytics Lens assessment for analytics workloads and/or the Generative AI Lens assessment for generative AI workloads. Check all six pillars and produce a consolidated HTML findings report with severity ratings, region details, and remediation steps. Name the report file according to the Report File Naming convention in POWER.md (e.g., well-architected-report.html for a base scan, well-architected-with-analytics-report.html if the Data Analytics Lens is included, well-architected-with-genai-report.html if the Generative AI Lens is included, or well-architected-full-report.html if both lenses are included). Generate the report using the multi-step approach defined in POWER.md (Steps 3a through 3e) to avoid output size issues."
+  }
+}

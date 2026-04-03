@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "name": "Data Analytics Lens Review",
+  "description": "Trigger a Data Analytics Lens assessment for analytics workloads on demand",
+  "version": "1.0.0",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Run a Data Analytics Lens assessment against the configured AWS account. Ask which regions to scan (specific list or all enabled regions). Assess analytics workloads across AWS Glue, Amazon Redshift, Amazon Athena, Amazon EMR, Amazon Kinesis, Amazon MSK, AWS Lake Formation, Amazon OpenSearch, and Amazon QuickSight. Load the data-analytics-lens.md steering file. Produce a consolidated HTML findings report saved as data-analytics-lens-report.html with severity ratings, region details, and remediation steps following the Cloudscape design system visual language defined in POWER.md. Generate the report using the multi-step approach defined in POWER.md (Steps 3a through 3e) to avoid output size issues."
+  }
+}

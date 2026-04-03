@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "name": "Generative AI Lens Review",
+  "description": "Trigger a Generative AI Lens assessment for generative AI workloads on demand",
+  "version": "1.0.0",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Run a Generative AI Lens assessment against the configured AWS account. Ask which regions to scan (specific list or all enabled regions). Assess generative AI workloads across Amazon Bedrock (foundation models, custom models, guardrails, knowledge bases, agents, inference profiles), Amazon SageMaker AI (endpoints, models, training jobs, notebooks), and OpenSearch Serverless (vector stores). Load the generative-ai-lens.md steering file. Produce a consolidated HTML findings report saved as generative-ai-lens-report.html with severity ratings, region details, and remediation steps following the Cloudscape design system visual language defined in POWER.md. Generate the report using the multi-step approach defined in POWER.md (Steps 3a through 3e) to avoid output size issues."
+  }
+}

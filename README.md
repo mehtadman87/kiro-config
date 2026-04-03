@@ -46,7 +46,7 @@ After installation:
 
 ## 📋 What's Included
 
-### 🎯 Steering Documents (23 files)
+### 🎯 Steering Documents (31 files)
 
 Steering files provide persistent context and guidelines to the Kiro agent across all interactions. They live in `.kiro/steering/` and use four inclusion modes:
 
@@ -75,7 +75,7 @@ Loaded automatically when your request matches the description:
 - **[PFR Tracking](.kiro/steering/pfr-tracking.md)** — AWS Product Feature Request identification, research validation, documentation format
 - **[Research-Validated Development](.kiro/steering/research-validated-development.md)** — Mandatory web search validation for specs, architecture, and dependency decisions
 
-#### Conditionally Loaded — File Match (3 files)
+#### Conditionally Loaded — File Match (4 files)
 
 Activate when a matching file is read into context:
 
@@ -84,9 +84,22 @@ Activate when a matching file is read into context:
 - **[Python Best Practices](.kiro/steering/python-best-practices.md)** — PEP 8, virtual environments, type hints, testing *(triggers on `*.py`)*
 - **[React Best Practices](.kiro/steering/react-best-practices.md)** — Functional components, hooks, accessibility, state management *(triggers on `*.tsx`, `*.jsx`)*
 
-#### Manually Loaded — On-Demand (9 files)
+#### Manually Loaded — On-Demand (17 files)
 
 Load via `#` context key or `/` slash command when working on specific topics:
+
+**AWS Well-Architected Scanner** (8 files — loaded automatically by the Well-Architected Scanner power during scans):
+
+- **[Security Pillar](.kiro/steering/security-pillar.md)** — Security scan checks: IAM, encryption, network security, data protection, incident response
+- **[Reliability Pillar](.kiro/steering/reliability-pillar.md)** — Reliability scan checks: fault tolerance, recovery, change management, multi-AZ/region
+- **[Performance Efficiency Pillar](.kiro/steering/performance-efficiency-pillar.md)** — Performance scan checks: compute, storage, database, networking optimization
+- **[Cost Optimization Pillar](.kiro/steering/cost-optimization-pillar.md)** — Cost scan checks: right-sizing, reserved capacity, unused resources, budgets
+- **[Operational Excellence Pillar](.kiro/steering/operational-excellence-pillar.md)** — Ops scan checks: monitoring, alerting, automation, CI/CD, runbooks
+- **[Sustainability Pillar](.kiro/steering/sustainability-pillar.md)** — Sustainability scan checks: resource utilization, managed services, data lifecycle
+- **[Data Analytics Lens](.kiro/steering/data-analytics-lens.md)** — Analytics lens checks: Glue, Redshift, Athena, EMR, Kinesis, MSK, Lake Formation, QuickSight, OpenSearch
+- **[Generative AI Lens](.kiro/steering/generative-ai-lens.md)** — GenAI lens checks: Bedrock, SageMaker, guardrails, knowledge bases, agents, vector stores
+
+**General** (9 files):
 
 - **[Claude Model Best Practices](.kiro/steering/claude-model-best-practices.md)** — Claude Opus 4.6 / Sonnet 4.6 model selection, adaptive thinking config, Strands SDK extended thinking passthrough, prompting principles, agentic coding patterns
 - **[Email Drafting Style](.kiro/steering/email-drafting-style.md)** — SA email formatting: subject lines, tone, structure, references, recommendations
@@ -98,7 +111,7 @@ Load via `#` context key or `/` slash command when working on specific topics:
 - **[RAG Best Practices](.kiro/steering/rag-best-practices.md)** — Semantic chunking, hybrid search (BM25 + vector), reranking, query transformation, adaptive RAG, context compression
 - **[Vidya Spark Generator](.kiro/steering/vidya-spark-generator.md)** — Process guide for generating Vidya Spark inputs: customer context, problem statement, solution description, KPIs, key features
 
-### 🔄 Agent Hooks (20 files)
+### 🔄 Agent Hooks (23 files)
 
 Hooks are event-driven automations that trigger agent actions on IDE events. They live in `.kiro/hooks/`.
 
@@ -121,9 +134,17 @@ Quality checks that run automatically when you save, create, or delete files:
 
 - **[Session Completion Review](.kiro/hooks/error-research-reminder.kiro.hook)** — Validates errors were researched via web search, checks for technical debt, validates architecture decisions, and identifies PFR opportunities
 
-#### 🔘 Manual Hooks — Button Triggers (6 hooks)
+#### 🔘 Manual Hooks — Button Triggers (9 hooks)
 
 On-demand tools available in the Kiro Agent Hooks panel:
+
+**AWS Well-Architected Scanner** (3 hooks):
+
+- **[Well-Architected Review](.kiro/hooks/well-architected-review.kiro.hook)** — Full six-pillar scan with optional Data Analytics and Generative AI lens assessments
+- **[Data Analytics Lens Review](.kiro/hooks/data-analytics-lens-review.kiro.hook)** — Analytics-focused assessment for Glue, Redshift, Athena, EMR, Kinesis, MSK, Lake Formation, QuickSight, OpenSearch
+- **[Generative AI Lens Review](.kiro/hooks/generative-ai-lens-review.kiro.hook)** — GenAI-focused assessment for Bedrock, SageMaker, OpenSearch Serverless
+
+**General** (6 hooks):
 
 - **[Commit Message Helper](.kiro/hooks/commit-message-helper.kiro.hook)** — Analyzes git diff and generates conventional commit messages
 - **[README Spell Check](.kiro/hooks/readme-spell-check.kiro.hook)** — Fixes spelling, grammar, and formatting in README files
@@ -148,8 +169,31 @@ Configured in `.kiro/settings/mcp.json`:
 |---|---|---|
 | context7 | `context7-mcp-server@latest` | Dependency compatibility verification, library documentation lookup |
 | aws-docs | `awslabs.aws-documentation-mcp-server@latest` | AWS documentation search, section reading, recommendations |
+| well-architected-security | `awslabs.well-architected-security-mcp-server` | Security posture assessment, GuardDuty/Security Hub/Inspector status, storage encryption, network security checks |
+| awsknowledge | `knowledge-mcp.global.api.aws` (HTTP) | AWS best practices documentation, Well-Architected Framework guidance, service guides |
+| awsapi | `awslabs.aws-api-mcp-server@latest` | Execute read-only AWS CLI commands to inspect resource configurations across all pillars |
 
 Both servers use `FASTMCP_LOG_LEVEL: "ERROR"` to reduce log noise. No tools are auto-approved by default.
+
+### 🏗️ AWS Well-Architected Scanner Power
+
+A Kiro Power that scans and validates AWS accounts against the [AWS Well-Architected Framework](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html) best practices across all six pillars, plus optional lens assessments.
+
+**What it scans:**
+- All six Well-Architected pillars: Operational Excellence, Security, Reliability, Performance Efficiency, Cost Optimization, Sustainability
+- Optional Data Analytics Lens (Glue, Redshift, Athena, EMR, Kinesis, MSK, Lake Formation, QuickSight, OpenSearch)
+- Optional Generative AI Lens (Bedrock, SageMaker, OpenSearch Serverless)
+
+**Prerequisites:**
+- AWS credentials with `ReadOnlyAccess` policy (verify with `aws sts get-caller-identity`)
+- `uv`/`uvx` installed (verify with `uvx --version`)
+- Python 3.10+
+
+**Usage:**
+- Click a hook in the Agent Hooks panel (Well-Architected Review, Data Analytics Lens Review, or Generative AI Lens Review)
+- Or ask in chat: "Run a well-architected scan", "Scan only the security pillar in us-east-1", "Run a generative AI lens assessment"
+
+**Output:** A self-contained HTML report with Cloudscape Design System styling, severity badges, region/severity filters, and remediation guidance. Read-only — no AWS resources are modified.
 
 ### 📑 Specs & Tracking
 
@@ -215,19 +259,22 @@ This boilerplate includes best practices for:
 - **Languages**: TypeScript, JavaScript, Python
 - **Frameworks**: React, CDK, Docker
 - **Tools**: Git, npm/yarn, pytest, ESLint, Prettier
-- **Cloud**: AWS (CLI, CDK, Bedrock, Strands Agents SDK)
+- **Cloud**: AWS (CLI, CDK, Bedrock, Strands Agents SDK, Well-Architected Framework)
 - **APIs**: OpenAPI/Swagger, GraphQL
 - **AI/ML**: LLM agent architecture, RAG, multi-agent orchestration, cost optimization, observability
 - **Testing**: Jest, pytest, coverage analysis
 - **Protocols**: MCP (Model Context Protocol)
 - **Documentation**: Markdown, JSDoc, docstrings
 
-## 📚 MCP Integration
+## � MCP Integration
 
 Includes best practices for Model Context Protocol servers:
 
 - **Context7** — For dependency compatibility checking and library documentation
 - **AWS Docs** — For current AWS documentation search and best practices
+- **Well-Architected Security** — For security posture assessment, GuardDuty/Security Hub/Inspector status, storage encryption, and network security checks
+- **AWS Knowledge** — For AWS best practices documentation and Well-Architected Framework guidance
+- **AWS API** — For executing read-only AWS CLI commands to inspect resource configurations
 - Proper configuration patterns, security, and testing workflows
 - Agentic tool design principles (single-purpose tools, input validation, parallel calling)
 
