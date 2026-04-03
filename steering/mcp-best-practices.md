@@ -1,6 +1,8 @@
 ---
 title: MCP (Model Context Protocol) Best Practices
-inclusion: always
+inclusion: auto
+name: mcp-best-practices
+description: When configuring, testing, building, or troubleshooting MCP servers and tool integrations.
 ---
 
 # MCP (Model Context Protocol) Best Practices

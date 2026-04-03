@@ -2,7 +2,7 @@
   "enabled": true,
   "name": "Spec Creation Validation",
   "description": "Triggers web search validation when new spec files are created to ensure initial designs and requirements are research-backed",
-  "version": "1",
+  "version": "2",
   "when": {
     "type": "fileCreated",
     "patterns": [
@@ -14,6 +14,6 @@
   },
   "then": {
     "type": "askAgent",
-    "prompt": "A new spec file has been created. You MUST use Kiro's built-in web search tool to validate the content before proceeding. Do the following:\n\n1. ARCHITECTURE VALIDATION: Search for current best practices for every AWS service, pattern, or technology referenced in this spec. Verify the approach is sound.\n\n2. WELL-ARCHITECTED REVIEW: Cross-reference architectural decisions against the AWS Well-Architected Framework. Search for relevant guidance on each pillar.\n\n3. ALTERNATIVES CHECK: Search for alternative approaches to the proposed solution. Document why the chosen approach is preferred over alternatives.\n\n4. FEASIBILITY CHECK: Verify that service quotas, regional availability, and integration compatibility support the proposed design.\n\n5. REPORT: Summarize validation findings with source URLs. Flag any risks or recommended changes.\n\nDo NOT skip the web search step. This is a mandatory validation gate."
+    "prompt": "A spec file has been created. You MUST use Kiro's built-in web search tool to validate the content. Do the following:\n\n1. RESEARCH VALIDATION: Use web search to verify that any AWS services, architectural patterns, libraries, or technical approaches mentioned in this file align with current best practices and official documentation.\n\n2. WELL-ARCHITECTED CHECK: For any AWS architecture decisions, search for and cross-reference against the AWS Well-Architected Framework six pillars (Operational Excellence, Security, Reliability, Performance Efficiency, Cost Optimization, Sustainability).\n\n3. ANTI-PATTERN DETECTION: Search for known anti-patterns, gotchas, or limitations related to the services and approaches described in the spec.\n\n4. DEPENDENCY VALIDATION: For any libraries or frameworks mentioned, verify they are actively maintained, have no critical vulnerabilities, and are the recommended choice for the use case.\n\n5. TECHNICAL DEBT CHECK: Review the content for any shortcuts, workarounds, or deferred improvements. If found, log them to the project's open-tech-debt.md file following the format defined in the technical-debt-management steering doc.\n\n6. REPORT: Provide a brief summary of findings. Flag any concerns, suggest improvements if warranted, and cite source URLs for key validations.\n\nDo NOT skip the web search step. Every validation must be backed by a search result."
   }
 }

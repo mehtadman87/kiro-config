@@ -1,6 +1,8 @@
 ---
 title: AWS Product Feature Request (PFR) Tracking
-inclusion: always
+inclusion: auto
+name: pfr-tracking
+description: When identifying AWS service gaps, limitations, workarounds, or PFR opportunities. Use when reviewing AWS architectures, troubleshooting service issues, or documenting feature requests.
 ---
 
 # AWS Product Feature Request (PFR) Tracking

@@ -1,21 +1,17 @@
 {
   "enabled": true,
   "name": "Lint and Format on Save",
-  "description": "Automatically lint and format code when files are saved following project standards",
-  "version": "1",
+  "description": "Automatically lint and format Python and JSON files when saved. JS/TS linting is handled by the auto-test-on-save hook to avoid double-firing.",
+  "version": "2",
   "when": {
     "type": "fileEdited",
     "patterns": [
-      "**/*.ts",
-      "**/*.js",
-      "**/*.tsx",
-      "**/*.jsx",
       "**/*.py",
       "**/*.json"
     ]
   },
   "then": {
     "type": "askAgent",
-    "prompt": "A code file has been saved. Please:\n1. Run the appropriate linter (ESLint for JS/TS, flake8/pylint for Python)\n2. Run the appropriate formatter (Prettier for JS/TS, Black for Python)\n3. Fix any auto-fixable issues\n4. Report any remaining issues that need manual attention\n\nUse the project's existing configuration files (.eslintrc, .prettierrc, pyproject.toml, etc.) and follow the established coding standards."
+    "prompt": "A code file has been saved. Please:\n1. Run the appropriate linter (flake8/pylint for Python, jsonlint for JSON)\n2. Run the appropriate formatter (Black for Python)\n3. Fix any auto-fixable issues\n4. Report any remaining issues that need manual attention\n\nUse the project's existing configuration files (pyproject.toml, setup.cfg, etc.) and follow the established coding standards."
   }
 }

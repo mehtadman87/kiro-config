@@ -1,14 +1,15 @@
 {
   "enabled": true,
   "name": "CDK Synth on Change",
-  "description": "Run CDK synth when CDK code is modified following CDK best practices",
+  "description": "Run CDK synth when CDK-specific code is modified following CDK best practices",
   "version": "1",
   "when": {
     "type": "fileEdited",
     "patterns": [
-      "src/**/*.ts",
-      "lib/**/*.ts",
       "cdk.json",
+      "src/stacks/**/*.ts",
+      "src/constructs/**/*.ts",
+      "src/stages/**/*.ts",
       "**/*Stack.ts",
       "**/*Construct.ts"
     ]

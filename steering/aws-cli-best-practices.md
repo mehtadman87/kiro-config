@@ -1,6 +1,8 @@
 ---
 title: AWS CLI Best Practices
-inclusion: always
+inclusion: auto
+name: aws-cli
+description: When running AWS CLI commands, configuring AWS profiles, or troubleshooting AWS API calls.
 ---
 
 # AWS CLI Best Practices

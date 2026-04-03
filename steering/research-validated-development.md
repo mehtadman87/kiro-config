@@ -1,6 +1,8 @@
 ---
 title: Research-Validated Development
-inclusion: always
+inclusion: auto
+name: research-validated-development
+description: When creating specs, making architecture decisions, selecting technologies, or designing solutions that need validation against current best practices.
 ---
 
 # Research-Validated Development

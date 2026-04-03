@@ -1,6 +1,6 @@
 ---
 title: Email Drafting Style Guide
-inclusion: always
+inclusion: manual
 ---
 
 # Email Drafting Style Guide

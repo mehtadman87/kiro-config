@@ -1,13 +1,13 @@
 {
   "enabled": true,
-  "name": "Error Research Reminder",
-  "description": "When the agent stops execution (often due to errors or completion), validates that any errors encountered were researched via web search before fixes were applied",
-  "version": "1",
+  "name": "Session Completion Review",
+  "description": "When the agent stops, validates errors were researched, checks for technical debt, validates architecture decisions, and identifies PFR opportunities",
+  "version": "2",
   "when": {
     "type": "agentStop"
   },
   "then": {
     "type": "askAgent",
-    "prompt": "Before concluding this session, review your work for completeness:\n\n1. ERROR VALIDATION: If any errors, build failures, or runtime issues were encountered during this session, confirm that you used Kiro's built-in web search tool to research the error before applying a fix. If you did not, search now and validate your fix is correct.\n\n2. TECHNICAL DEBT REVIEW: Check if any shortcuts, workarounds, or deferred improvements were introduced. If so, ensure they are logged in the appropriate technical-debt.md file.\n\n3. ARCHITECTURE VALIDATION: If any architectural decisions were made, confirm they were validated against current AWS documentation and best practices via web search.\n\nIf any of these checks reveal gaps, address them now before the session ends."
+    "prompt": "Before concluding this session, review your work for completeness:\n\n1. ERROR VALIDATION: If any errors, build failures, or runtime issues were encountered during this session, confirm that you used Kiro's built-in web search tool to research the error before applying a fix. If you did not, search now and validate your fix is correct.\n\n2. TECHNICAL DEBT REVIEW: Check if any shortcuts, workarounds, or deferred improvements were introduced. If so, ensure they are logged in the appropriate open-tech-debt.md file.\n\n3. ARCHITECTURE VALIDATION: If any architectural decisions were made, confirm they were validated against current AWS documentation and best practices via web search.\n\nIf any of these checks reveal gaps, address them now before the session ends.\n\n4. PFR IDENTIFICATION: Review the work completed in this session and identify any AWS service gaps, limitations, missing capabilities, console UX friction, API gaps, or workarounds that were required. For each candidate PFR opportunity: (1) use web search and the AWS documentation MCP server to verify the gap is real and not already addressed in a recent release, (2) research existing workarounds and their limitations, (3) validate customer impact. If one or more validated PFR opportunities are found, append them to PFRs.md at the workspace root using the format defined in the pfr-tracking steering document. If PFRs.md does not exist, create it with a summary table header first. After documenting, briefly tell the user what was added."
   }
 }
