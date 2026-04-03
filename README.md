@@ -19,9 +19,8 @@ git commit -m "feat: initialize project with Kiro best practices"
 ```bash
 # Add only the .kiro directory to your existing project
 cd your-existing-project
-mkdir -p .kiro
 curl -L https://github.com/mehtadman87/kiro-config/archive/main.tar.gz | tar -xz
-cp -r kiro-config-main/.kiro/* .kiro/
+cp -r kiro-config-main/.kiro/. .kiro/
 rm -rf kiro-config-main
 ```
 
@@ -29,9 +28,8 @@ rm -rf kiro-config-main
 ```bash
 # Download and extract only .kiro directory
 cd your-project
-mkdir -p .kiro
 git clone https://github.com/mehtadman87/kiro-config.git temp-kiro
-cp -r temp-kiro/.kiro/* .kiro/
+cp -r temp-kiro/.kiro/. .kiro/
 rm -rf temp-kiro
 ```
 
