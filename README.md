@@ -16,20 +16,36 @@ git commit -m "feat: initialize project with Kiro best practices"
 ```
 
 ### Option 2: Add to Existing Project (Recommended)
+
 ```bash
-# Add only the .kiro directory to your existing project
-cd your-existing-project
+# Download and extract into a temp folder
 curl -L https://github.com/mehtadman87/kiro-config/archive/main.tar.gz | tar -xz
-cp -r kiro-config-main/.kiro/. .kiro/
+
+# Create .kiro folder and copy each subdirectory into it
+mkdir -p .kiro
+cp -r kiro-config-main/hooks .kiro/
+cp -r kiro-config-main/steering .kiro/
+cp -r kiro-config-main/settings .kiro/
+cp -r kiro-config-main/specs .kiro/
+
+# Clean up
 rm -rf kiro-config-main
 ```
 
 ### Option 3: Manual Download
+
 ```bash
-# Download and extract only .kiro directory
-cd your-project
+# Clone into a temp folder
 git clone https://github.com/mehtadman87/kiro-config.git temp-kiro
-cp -r temp-kiro/.kiro/. .kiro/
+
+# Create .kiro folder and copy each subdirectory into it
+mkdir -p .kiro
+cp -r temp-kiro/hooks .kiro/
+cp -r temp-kiro/steering .kiro/
+cp -r temp-kiro/settings .kiro/
+cp -r temp-kiro/specs .kiro/
+
+# Clean up
 rm -rf temp-kiro
 ```
 
